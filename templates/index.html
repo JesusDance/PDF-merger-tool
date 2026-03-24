@@ -11,6 +11,9 @@
     <input name="file" type="file" id="file_name" placeholder="Put file's name..."/>
     <button type="submit">Send file</button>
 </form>
+{% for file in list_of_pdf %}
+    <p class="text-success">File {{ file.path.name }} has {{ file.pages }} pages</p>
+{% endfor %}
 <form method="post" action="/merge">
     <button type="submit">Merge files</button>
 </form>

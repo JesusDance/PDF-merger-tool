@@ -1,5 +1,5 @@
 from pathlib import Path
-from pypdf import PdfWriter
+from pypdf import PdfWriter, PdfReader
 from flask import Flask, render_template, request, flash, url_for, redirect, send_file
 
 app = Flask(__name__)
@@ -21,13 +21,19 @@ def home():
             path = UPLOAD / file.filename
             file.save(path)
             print(path)
-            list_of_pdf.append(path)
-            flash(f"{file.filename} added to list", "success")
+
+            reader = PdfReader(path)
+            pages = len(reader.pages)
+
+            list_of_pdf.append({
+                "path": path,
+                "pages": pages
+            })
             print(list_of_pdf)
         else:
             flash("Invalid file", "error")
 
-    return render_template("index.html", files=list_of_pdf)
+    return render_template("index.html", list_of_pdf=list_of_pdf)
 
 
 @app.route("/merge", methods=["POST"])
@@ -38,9 +44,10 @@ def merge():
 
     merger = PdfWriter()
     for pdf in list_of_pdf:
-        merger.append(pdf)
+        merger.append(pdf["path"])
 
     merger.write(RESULT)
+    list_of_pdf.clear()
 
     return send_file(RESULT, as_attachment=True)
 
