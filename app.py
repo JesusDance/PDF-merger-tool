@@ -72,5 +72,18 @@ def delete_last_item():
     return redirect(url_for("home"))
 
 
+@app.route("/delete/<path>", methods=["POST"])
+def delete(path):
+    if not list_of_pdf:
+        flash("List is empty", "error")
+        return redirect(url_for("home"))
+
+    for file in list_of_pdf:
+        if file["path"] == path:
+            list_of_pdf.remove(file)
+            break
+    return redirect(url_for("home"))
+
+
 if __name__ == "__main__":
     app.run(debug=True)
