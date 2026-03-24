@@ -25,10 +25,7 @@ def home():
             reader = PdfReader(path)
             pages = len(reader.pages)
 
-            list_of_pdf.append({
-                "path": path,
-                "pages": pages
-            })
+            list_of_pdf.append({"path": path, "pages": pages})
             print(list_of_pdf)
         else:
             flash("Invalid file", "error")
@@ -48,6 +45,7 @@ def merge():
 
     merger.write(RESULT)
     list_of_pdf.clear()
+    print(list_of_pdf)
 
     return send_file(RESULT, as_attachment=True)
 
@@ -66,7 +64,8 @@ def clear_pdf_list():
 def delete_last_item():
     if list_of_pdf:
         last_item = list_of_pdf.pop()
-        flash(f"{last_item} deleted from list", "success")
+        last_item_name = last_item["path"].name
+        flash(f"{last_item_name} deleted from list", "success")
     else:
         flash("List is empty", "error")
 
