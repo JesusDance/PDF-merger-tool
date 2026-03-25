@@ -71,6 +71,8 @@ def delete(name):
             list_of_pdf.remove(file)
             print(list_of_pdf)
             break
+    else:
+        flash("Invalid file name", "error")
     return redirect(url_for("home"))
 
 
