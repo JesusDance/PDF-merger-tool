@@ -60,27 +60,16 @@ def clear_pdf_list():
     return redirect(url_for("home"))
 
 
-@app.route("/pop", methods=["POST"])
-def delete_last_item():
-    if list_of_pdf:
-        last_item = list_of_pdf.pop()
-        last_item_name = last_item["path"].name
-        flash(f"{last_item_name} deleted from list", "success")
-    else:
-        flash("List is empty", "error")
-
-    return redirect(url_for("home"))
-
-
-@app.route("/delete/<path>", methods=["POST"])
-def delete(path):
+@app.route("/delete/<name>")
+def delete(name):
     if not list_of_pdf:
         flash("List is empty", "error")
         return redirect(url_for("home"))
 
     for file in list_of_pdf:
-        if file["path"] == path:
+        if file["path"].name == name:
             list_of_pdf.remove(file)
+            print(list_of_pdf)
             break
     return redirect(url_for("home"))
 

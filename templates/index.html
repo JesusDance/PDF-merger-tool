@@ -14,7 +14,7 @@
 {% for file in list_of_pdf %}
     <p class="text-success">File {{ file.path.name }} has {{ file.pages }} pages</p>
     <div>
-        <a href="/delete/{{ file['path'] }}">Delete</a>
+        <a href="/delete/{{ file['path'].name }}">Delete</a>
     </div>
 {% endfor %}
 <form method="post" action="/merge">
